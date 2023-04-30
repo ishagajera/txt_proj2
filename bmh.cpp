@@ -9,13 +9,8 @@ int bmh(string T, string P);
 void fill_bad_table(vector<int>&bad_table, string P, int n){
   for(int i=0;i<n-1;i++){
     
-    bad_table[(int)P[i]] = n - i -1;
+    bad_table[(int)P[i]] = i;
   }
-  // cout<<"printing bad table:\n";
-  // for(int i=0;i<127;i++){
-  //   cout<<bad_table[i]<<" "; 
-  // }
-
 }
 int check_full_string(string P, string T, int plen , int tlen){
   int temp = tlen;
@@ -23,7 +18,7 @@ int check_full_string(string P, string T, int plen , int tlen){
       plen--;
       tlen--;
   }
-  if(tlen == 0) return temp;
+  if(plen == 0) return temp;
   return tlen;
 
 }
@@ -33,33 +28,30 @@ int bmh(string T, string P) {
   int txt_len = T.length();
   int patt_len = P.length();
   int ans =-1;
-  vector<int>bad_table(128,patt_len);
+  vector<int>bad_table(128,-1);
 
   fill_bad_table(bad_table,P,patt_len);
 
   int j = patt_len -1;
+  int i = j;
   int mis =0;
-  while(j < txt_len){
-    if(P[patt_len-1] == T[j]){
-      mis = check_full_string(P,T,patt_len-1,j);
-      // cout<<"value of mis is: "<<mis<<endl;
-      // cout<<"new val j: "<<j<<"\n val of pattlen: "<<patt_len<<endl;
-      if(j - mis == patt_len-1){
-        if(P[0] != T[mis]) return -1;
-         return mis;
+  while(i < txt_len){
+    if(P[j] == T[i]){
+      if(j ==0) return i;
+      else{
+        i--;
+        j--;
+      }
       } 
       else{
         //find mismtach location
         int new_loc = bad_table[(int)T[mis]];
-        j += new_loc;
+        i += (patt_len - min(j,new_loc+1));
+        j = patt_len;
       }
-    }
-    else{
-       int new_loc = bad_table[(int)T[j]];
-        j += new_loc;
-    }
+    
+   
     // cout<<"val of j: "<<j<<endl;
-
   }
 
   return -1;
