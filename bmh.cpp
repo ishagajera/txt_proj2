@@ -45,8 +45,8 @@ int bmh(string T, string P) {
       } 
       else{
         //find mismtach location
-        int new_loc = bad_table[(int)T[mis]];
-        i += (patt_len - min(j,new_loc+1));
+        int new_loc = bad_table[(int)T[i]];
+        i = i + patt_len - min(j,new_loc+1);
         j = patt_len;
       }
     
