@@ -47,7 +47,7 @@ int bmh(string T, string P) {
         //find mismtach location
         int new_loc = bad_table[(int)T[i]];
         i = i + patt_len - min(j,new_loc+1);
-        j = patt_len;
+        j = patt_len-1;
       }
     
    
